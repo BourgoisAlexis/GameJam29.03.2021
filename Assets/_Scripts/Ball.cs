@@ -50,18 +50,21 @@ public class Ball : MonoBehaviour
 
 
         if (_transform.position.y < -_bottomLimit)
-        {
             GameplayManager.Instance.BallPool.LoseBall(gameObject);
-            if (_level < 4)
-                _level++;
-
-            _visual.GetComponent<SpriteRenderer>().sprite = _sprites[_level];
-        }
     }
 
 
     public void Bump(Vector2 dir, float force)
     {
         _rb.AddForce(dir * force * 100);
+    }
+
+    public void LevelUp()
+    {
+        GameplayManager.Instance.BallPool.EnqueueBall(gameObject);
+        if (_level < 4)
+            _level++;
+
+        _visual.GetComponent<SpriteRenderer>().sprite = _sprites[_level];
     }
 }

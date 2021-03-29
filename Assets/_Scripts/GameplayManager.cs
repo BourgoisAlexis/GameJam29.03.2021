@@ -16,6 +16,7 @@ public class GameplayManager : MonoBehaviour
 
     private Transform _camTransform;
     private FXManager _fxManager;
+    private AudioManager _audioManager;
     private BallPool _ballPool;
     [SerializeField] private UIManager _uiManager;
 
@@ -29,6 +30,7 @@ public class GameplayManager : MonoBehaviour
     //Accessors
     public FXManager FXManager => _fxManager;
     public UIManager UIManager => _uiManager;
+    public AudioManager AudioManager => _audioManager;
     public BallPool BallPool => _ballPool;
     public float BottomLimit => _bottomLimit;
     #endregion
@@ -45,6 +47,7 @@ public class GameplayManager : MonoBehaviour
         _basePos = _camTransform.position;
 
         _fxManager = GetComponent<FXManager>();
+        _audioManager = GetComponent<AudioManager>();
         _ballPool = GetComponent<BallPool>();
         _uiManager.UpdateScore(0);
 

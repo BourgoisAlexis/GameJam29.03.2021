@@ -45,7 +45,14 @@ public class BallPool : MonoBehaviour
     {
         _lost.Enqueue(ball);
         _ingame.Remove(ball);
+
+        ball.SetActive(false);
+    }
+
+    public void EnqueueBall(GameObject ball)
+    {
         _reserve.Enqueue(ball);
+        _ingame.Remove(ball);
 
         ball.SetActive(false);
     }
@@ -65,6 +72,7 @@ public class BallPool : MonoBehaviour
             GameObject instance = _reserve.Dequeue();
             instance.transform.localPosition = Vector3.zero;
             instance.SetActive(true);
+            instance.GetComponent<Ball>().Bump(Vector2.up, 10);
             _ingame.Add(instance);
             yield return new WaitForSeconds(0.1f);
         }
