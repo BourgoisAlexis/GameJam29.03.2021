@@ -2,7 +2,8 @@
 
 public class Recuperators : MonoBehaviour
 {
-
+    [SerializeField] private string _vfxName;
+    [SerializeField] private string _sfxName;
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
@@ -11,6 +12,8 @@ public class Recuperators : MonoBehaviour
         if (ball == null)
             return;
 
+        GameplayManager.Instance.AudioManager.PlaySFX(_sfxName);
+        GameplayManager.Instance.FXManager.Instantiate(_vfxName, transform.position, Quaternion.identity, null);
         ball.LevelUp();
     }
 }

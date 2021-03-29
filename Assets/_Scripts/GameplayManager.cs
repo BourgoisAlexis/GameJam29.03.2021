@@ -10,6 +10,7 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private Transform _leftHand;
     [SerializeField] private Transform _rightHand;
     [SerializeField] private float _bottomLimit;
+    [SerializeField] private SpriteRenderer _machineVisual;
     [SerializeField] private Sprite[] _machineSprites;
     [SerializeField] private Sprite[] _screenSprites;
 
@@ -92,6 +93,22 @@ public class GameplayManager : MonoBehaviour
         if (_pv > 0)
             _pv--;
 
+        int step = 30 / 4;
+
+
+        if (_pv == 0)
+        {
+            _machineVisual.sprite = _machineSprites[3];
+            _uiManager.UpdatePV(_pv);
+            _ballPool.Stop();
+            return;
+        }
+        else if (_pv < step * 2)
+            _machineVisual.sprite = _machineSprites[2];
+        else if (_pv < step * 3)
+            _machineVisual.sprite = _machineSprites[1];
+
+
         _uiManager.UpdatePV(_pv);
 
         if (left)
@@ -102,6 +119,8 @@ public class GameplayManager : MonoBehaviour
 
     private void RightSlap()
     {
+        _audioManager.PlaySFX("SFX_Slam", null, _rightHand.position);
+
         _canSlap = true;
         ShakyCam(true);
 
@@ -112,6 +131,8 @@ public class GameplayManager : MonoBehaviour
 
     private void LeftSlap()
     {
+        _audioManager.PlaySFX("SFX_Slam", null, _leftHand.position);
+
         _canSlap = true;
         ShakyCam(true);
 
@@ -123,7 +144,7 @@ public class GameplayManager : MonoBehaviour
     public void ShakyCam(bool super)
     {
         Sequence seq = DOTween.Sequence();
-        float intensity = 0.08f * (super ? 3 : 1);
+        float intensity = 0.05f * (super ? 3 : 1);
         int iterrations = 6 * (super ? 3 : 1);
 
         for (int i = 0; i < iterrations; i++)

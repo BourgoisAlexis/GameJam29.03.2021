@@ -361,6 +361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88885d0352703594ea20cdfc7fa15121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _vfxName: P_VFX_Sparkles_Final
+  _sfxName: SFX_Recovery_Win
 --- !u!1 &9103904980990545636
 GameObject:
   m_ObjectHideFlags: 0

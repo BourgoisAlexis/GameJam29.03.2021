@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,15 +8,15 @@ public class BallPool : MonoBehaviour
 {
     #region Variables
     [SerializeField] private GameObject _prefab;
+    [SerializeField] private TextMeshProUGUI _count;
     [SerializeField] private Transform _parent;
     [SerializeField] private int _starting;
-    [SerializeField] private int _startSpawn;
 
     private Queue<GameObject> _reserve = new Queue<GameObject>();
     private Queue<GameObject> _lost = new Queue<GameObject>();
     private List<GameObject> _ingame = new List<GameObject>();
 
-    private float delay = 2;
+    private float delay = 1;
     #endregion
 
 
@@ -45,6 +46,8 @@ public class BallPool : MonoBehaviour
 
     public void LoseBall(GameObject ball)
     {
+        GameplayManager.Instance.AudioManager.PlaySFX("SFX_LostBall");
+
         _lost.Enqueue(ball);
         _ingame.Remove(ball);
 
@@ -57,6 +60,7 @@ public class BallPool : MonoBehaviour
         _ingame.Remove(ball);
 
         ball.SetActive(false);
+        UpdateCount();
     }
 
     public void ChangeSpeed(Slider slider)
@@ -69,13 +73,24 @@ public class BallPool : MonoBehaviour
         while (_reserve.Count > 0)
         {
             GameObject instance = _reserve.Dequeue();
+            UpdateCount();
             instance.transform.localPosition = Vector3.zero;
             instance.SetActive(true);
-            float rnd = Random.Range(5f, 8f);
+            float rnd = Random.Range(4f, 6f);
             instance.GetComponent<Ball>().Bump(Vector2.up, rnd);
             _ingame.Add(instance);
 
             yield return new WaitForSeconds(delay);
         }
+    }
+
+    private void UpdateCount()
+    {
+        GameplayManager.Instance.UIManager.UpdateBallCount(_reserve.Count);
+    }
+
+    public void Stop()
+    {
+        StopAllCoroutines();
     }
 }
