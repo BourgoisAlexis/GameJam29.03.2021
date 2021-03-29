@@ -53,9 +53,11 @@ public class FXManager : MonoBehaviour
 
 		GameObject instance = poolDictionary[_name].Dequeue();
 		poolDictionary[_name].Enqueue(instance);
-		instance.SetActive(true);
+
+		instance.SetActive(false);
 		instance.transform.position = _position;
 		instance.transform.rotation = _rotation;
+		instance.SetActive(true);
 
 		if (_parent != null)
 			instance.transform.SetParent(_parent);

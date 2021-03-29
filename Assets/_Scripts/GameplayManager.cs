@@ -11,14 +11,20 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private Transform rightHand;
 
     private Vector3 _basePos;
-    private Ball _ball;
+    private bool canSlap;
+
     private Transform _camTransform;
     private FXManager _fxManager;
+    private BallPool _ballPool;
+    [SerializeField] private UIManager _uiManager;
 
-    private bool canSlap;
+    //Score
+    private int current;
+    private int target;
 
     //Accessors
     public FXManager FXManager => _fxManager;
+    public UIManager UIManager => _uiManager;
     #endregion
 
 
@@ -33,6 +39,8 @@ public class GameplayManager : MonoBehaviour
         _basePos = _camTransform.position;
 
         _fxManager = GetComponent<FXManager>();
+        _ballPool = GetComponent<BallPool>();
+        _uiManager.UpdateScore(0);
 
         canSlap = true;
     }
@@ -46,39 +54,55 @@ public class GameplayManager : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.RightArrow))
                 Slap(false);
         }
+
+        if (current != target)
+        {
+            int multiplier = 1;
+            int diff = Mathf.Abs(target - current);
+
+            if (diff > 10)
+                multiplier = diff / 10;
+
+            current += (int)Mathf.Sign(target - current) * multiplier;
+            _uiManager.UpdateScore(current);
+        }
     }
 
 
-    public void SetupBall(Ball ball)
+    public void UpdateScore(int value)
     {
-        _ball = ball;
+        target += value;
     }
 
 
     private void Slap(bool left)
     {
+        canSlap = false;
+
         if (left)
-            rightHand.DOMoveX(2.5f, 0.05f).onComplete += LeftSlap;
+            rightHand.DOMoveX(2.5f, 0.05f).onComplete += RightSlap;
         else
-            leftHand.DOMoveX(-2.5f, 0.05f).onComplete += RightSlap;
-    }
-
-    private void LeftSlap()
-    {
-        ShakyCam(true);
-
-        if (_ball != null)
-            _ball.Bump(new Vector2(-1, 0), 2);
+            leftHand.DOMoveX(-2.5f, 0.05f).onComplete += LeftSlap;
     }
 
     private void RightSlap()
     {
+        canSlap = true;
         ShakyCam(true);
 
-        if (_ball != null)
-            _ball.Bump(new Vector2(1, 0), 2);
+        _ballPool.BumpAll(new Vector2(-1, 0), 2);
 
-        leftHand.DOMoveX(-2.5f, 0.05f).onComplete += RightSlap;
+        rightHand.DOMoveX(7f, 0.05f);
+    }
+
+    private void LeftSlap()
+    {
+        canSlap = true;
+        ShakyCam(true);
+
+        _ballPool.BumpAll(new Vector2(1, 0), 2);
+
+        leftHand.DOMoveX(-7f, 0.05f);
     }
 
     public void ShakyCam(bool super)

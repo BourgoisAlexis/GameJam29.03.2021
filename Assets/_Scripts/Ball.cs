@@ -18,11 +18,6 @@ public class Ball : MonoBehaviour
         _visual = GetComponentInChildren<SpriteRenderer>().transform;
     }
 
-    private void Start()
-    {
-        Setup();
-    }
-
     private void FixedUpdate()
     {
         //Look At
@@ -34,17 +29,12 @@ public class Ball : MonoBehaviour
 
         //Deformation
         float speed = Vector2.SqrMagnitude(_rb.velocity);
-        speed /= 300;
+        speed /= 1000;
         speed = Mathf.Clamp(speed, 0.5f , 0.8f);
 
-        _visual.localScale = Vector3.Lerp(_transform.localScale, new Vector3(1 - speed, 1, speed), 0.4f);
+        _visual.localScale = Vector3.Lerp(_transform.localScale, new Vector3(1 - speed, 1, 1 + speed), 0.4f);
     }
 
-
-    public void Setup()
-    {
-        GameplayManager.Instance.SetupBall(this);
-    }
 
     public void Bump(Vector2 dir, float force)
     {
