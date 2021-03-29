@@ -11,11 +11,11 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private Transform _rightHand;
     [SerializeField] private float _bottomLimit;
     [SerializeField] private SpriteRenderer _machineVisual;
+    [SerializeField] private SpriteRenderer _screenVisual;
     [SerializeField] private Sprite[] _machineSprites;
     [SerializeField] private Sprite[] _screenSprites;
 
     private Vector3 _basePos;
-    private bool _canSlap;
 
     private Transform _camTransform;
     private FXManager _fxManager;
@@ -23,12 +23,11 @@ public class GameplayManager : MonoBehaviour
     private BallPool _ballPool;
     [SerializeField] private UIManager _uiManager;
 
-    //Score
     private int _current;
     private int _target;
-
-    //PV
     private int _pv = 30;
+    private int _evolve;
+    private bool _canSlap;
 
     //Accessors
     public FXManager FXManager => _fxManager;
@@ -158,7 +157,10 @@ public class GameplayManager : MonoBehaviour
 
     public void Evolve()
     {
+        if (_evolve < 2)
+            _evolve++;
 
+        _screenVisual.sprite = _screenSprites[_evolve];
     }
 
 

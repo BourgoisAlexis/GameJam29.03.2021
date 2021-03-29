@@ -299,7 +299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7548374057249885667}
   - component: {fileID: 7548374057249885666}
-  - component: {fileID: 7548374057249885665}
+  - component: {fileID: 347398961514478893}
   m_Layer: 0
   m_Name: Recuperator Final
   m_TagString: Untagged
@@ -349,7 +349,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.46256673, y: 0.23071885}
   m_EdgeRadius: 0
---- !u!114 &7548374057249885665
+--- !u!114 &347398961514478893
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -358,7 +358,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7548374057249885664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88885d0352703594ea20cdfc7fa15121, type: 3}
+  m_Script: {fileID: 11500000, guid: f2697b362ef2fc749ae5dd4ca4e10827, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _vfxName: P_VFX_Sparkles_Final
