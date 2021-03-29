@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 7548374057249885666}
   - component: {fileID: 7548374057249885665}
   m_Layer: 0
-  m_Name: Recuperator
+  m_Name: Recuperator Final
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,7 +431,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b9755a1c553b9664baf0fdac9166a072, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e8630f9bad138104fbf3004f01d4ca24, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
