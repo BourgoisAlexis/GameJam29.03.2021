@@ -34,9 +34,12 @@ public class AudioManager : MonoBehaviour
         SetupOwner();
 
         foreach (AudioClip clip in clips)
-        {
             repertory.Add(clip.name, clip);
-        }
+    }
+
+    private void Start()
+    {
+        PlayMusic("OST_MainTheme");
     }
 
 
@@ -73,10 +76,10 @@ public class AudioManager : MonoBehaviour
         int index = musics[0].isPlaying ? 1 : 0;
         AudioSource toUse = musics[index];
 
-        if (repertory.ContainsKey("Music_" + _name))
+        if (repertory.ContainsKey(_name))
         {
             toUse.volume = 0;
-            toUse.clip = repertory["Music_" + _name];
+            toUse.clip = repertory[_name];
             toUse.Play();
 
             StartCoroutine(Transition(index));

@@ -17,6 +17,7 @@ public class BallPool : MonoBehaviour
     private List<GameObject> _ingame = new List<GameObject>();
 
     private float delay = 1;
+    private bool stop;
     #endregion
 
 
@@ -46,6 +47,9 @@ public class BallPool : MonoBehaviour
 
     public void LoseBall(GameObject ball)
     {
+        if (stop)
+            return;
+
         GameplayManager.Instance.AudioManager.PlaySFX("SFX_LostBall");
 
         _lost.Enqueue(ball);
@@ -56,6 +60,9 @@ public class BallPool : MonoBehaviour
 
     public void EnqueueBall(GameObject ball)
     {
+        if (stop)
+            return;
+
         _reserve.Enqueue(ball);
         _ingame.Remove(ball);
 
@@ -91,6 +98,18 @@ public class BallPool : MonoBehaviour
 
     public void Stop()
     {
+        stop = true;
         StopAllCoroutines();
+        StartCoroutine(Destroying());
+    }
+
+    private IEnumerator Destroying()
+    {
+        for (int i = _ingame.Count - 1; i >= 0; i--)
+        {
+            _ingame[i].SetActive(false);
+            GameplayManager.Instance.FXManager.Instantiate("P_VFX_Sparkles_Ball_Collision", _ingame[i].transform.position, Quaternion.identity, null);
+            yield return new WaitForSeconds(0.05f);
+        }
     }
 }
