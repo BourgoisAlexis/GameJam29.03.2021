@@ -7,11 +7,12 @@ public class GameplayManager : MonoBehaviour
     public static GameplayManager Instance;
 
     #region Variables
-    [SerializeField] private Transform leftHand;
-    [SerializeField] private Transform rightHand;
+    [SerializeField] private Transform _leftHand;
+    [SerializeField] private Transform _rightHand;
+    [SerializeField] private float _bottomLimit;
 
     private Vector3 _basePos;
-    private bool canSlap;
+    private bool _canSlap;
 
     private Transform _camTransform;
     private FXManager _fxManager;
@@ -19,12 +20,14 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private UIManager _uiManager;
 
     //Score
-    private int current;
-    private int target;
+    private int _current;
+    private int _target;
 
     //Accessors
     public FXManager FXManager => _fxManager;
     public UIManager UIManager => _uiManager;
+    public BallPool BallPool => _ballPool;
+    public float BottomLimit => _bottomLimit;
     #endregion
 
 
@@ -42,12 +45,12 @@ public class GameplayManager : MonoBehaviour
         _ballPool = GetComponent<BallPool>();
         _uiManager.UpdateScore(0);
 
-        canSlap = true;
+        _canSlap = true;
     }
 
     private void Update()
     {
-        if (canSlap)
+        if (_canSlap)
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow))
                 Slap(true);
@@ -55,54 +58,54 @@ public class GameplayManager : MonoBehaviour
                 Slap(false);
         }
 
-        if (current != target)
+        if (_current != _target)
         {
             int multiplier = 1;
-            int diff = Mathf.Abs(target - current);
+            int diff = Mathf.Abs(_target - _current);
 
             if (diff > 10)
                 multiplier = diff / 10;
 
-            current += (int)Mathf.Sign(target - current) * multiplier;
-            _uiManager.UpdateScore(current);
+            _current += (int)Mathf.Sign(_target - _current) * multiplier;
+            _uiManager.UpdateScore(_current);
         }
     }
 
 
     public void UpdateScore(int value)
     {
-        target += value;
+        _target += value;
     }
 
 
     private void Slap(bool left)
     {
-        canSlap = false;
+        _canSlap = false;
 
         if (left)
-            rightHand.DOMoveX(2.5f, 0.05f).onComplete += RightSlap;
+            _rightHand.DOMoveX(2.5f, 0.05f).onComplete += RightSlap;
         else
-            leftHand.DOMoveX(-2.5f, 0.05f).onComplete += LeftSlap;
+            _leftHand.DOMoveX(-2.5f, 0.05f).onComplete += LeftSlap;
     }
 
     private void RightSlap()
     {
-        canSlap = true;
+        _canSlap = true;
         ShakyCam(true);
 
         _ballPool.BumpAll(new Vector2(-1, 0), 2);
 
-        rightHand.DOMoveX(7f, 0.05f);
+        _rightHand.DOMoveX(7f, 0.05f);
     }
 
     private void LeftSlap()
     {
-        canSlap = true;
+        _canSlap = true;
         ShakyCam(true);
 
         _ballPool.BumpAll(new Vector2(1, 0), 2);
 
-        leftHand.DOMoveX(-7f, 0.05f);
+        _leftHand.DOMoveX(-7f, 0.05f);
     }
 
     public void ShakyCam(bool super)
@@ -118,5 +121,13 @@ public class GameplayManager : MonoBehaviour
         }
 
         seq.Append(_camTransform.DOMove(_basePos, 0.05f));
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Vector3 pos = -Vector3.up * _bottomLimit;
+        Gizmos.DrawLine(pos + Vector3.left * 5, pos - Vector3.left * 5);
     }
 }

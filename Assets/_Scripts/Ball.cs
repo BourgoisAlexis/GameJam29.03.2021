@@ -8,6 +8,8 @@ public class Ball : MonoBehaviour
     private Transform _transform;
     private Rigidbody2D _rb;
     private Transform _visual;
+
+    private float _bottomLimit;
     #endregion
 
 
@@ -16,6 +18,11 @@ public class Ball : MonoBehaviour
         _transform = transform;
         _rb = GetComponent<Rigidbody2D>();
         _visual = GetComponentInChildren<SpriteRenderer>().transform;
+    }
+
+    private void Start()
+    {
+        _bottomLimit = GameplayManager.Instance.BottomLimit;
     }
 
     private void FixedUpdate()
@@ -33,6 +40,10 @@ public class Ball : MonoBehaviour
         speed = Mathf.Clamp(speed, 0.5f , 0.8f);
 
         _visual.localScale = Vector3.Lerp(_transform.localScale, new Vector3(1 - speed, 1, 1 + speed), 0.4f);
+
+
+        if (_transform.position.y < -_bottomLimit)
+            GameplayManager.Instance.BallPool.LoseBall(gameObject);
     }
 
 

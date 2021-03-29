@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class BallPool : MonoBehaviour
 {
+    #region Variables
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Transform _parent;
     [SerializeField] private int _starting;
 
     private Queue<GameObject> _reserve = new Queue<GameObject>();
-    private Queue<GameObject> _used = new Queue<GameObject>();
+    private Queue<GameObject> _lost = new Queue<GameObject>();
     private List<GameObject> _ingame = new List<GameObject>();
+    #endregion
+
 
     private void Awake()
     {
@@ -27,10 +30,21 @@ public class BallPool : MonoBehaviour
         LaunchBall(10);
     }
 
+
     public void BumpAll(Vector2 dir, float force)
     {
-        foreach (GameObject g in _ingame)
+        List<GameObject> balls = new List<GameObject>(_ingame);
+
+        foreach (GameObject g in balls)
             g.GetComponent<Ball>().Bump(dir, force);
+    }
+
+    public void LoseBall(GameObject ball)
+    {
+        _lost.Enqueue(ball);
+        _ingame.Remove(ball);
+
+        ball.SetActive(false);
     }
 
     private void LaunchBall(int delay)
