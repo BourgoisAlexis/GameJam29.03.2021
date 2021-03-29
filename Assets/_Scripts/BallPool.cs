@@ -63,6 +63,10 @@ public class BallPool : MonoBehaviour
         if (stop)
             return;
 
+        GameObject instance = Instantiate(_prefab, _parent);
+        _reserve.Enqueue(instance);
+        instance.SetActive(false);
+
         _reserve.Enqueue(ball);
         _ingame.Remove(ball);
 
@@ -83,7 +87,7 @@ public class BallPool : MonoBehaviour
             UpdateCount();
             instance.transform.localPosition = Vector3.zero;
             instance.SetActive(true);
-            float rnd = Random.Range(4f, 6f);
+            float rnd = Random.Range(4.2f, 5.7f);
             instance.GetComponent<Ball>().Bump(Vector2.up, rnd);
             _ingame.Add(instance);
 
@@ -110,6 +114,8 @@ public class BallPool : MonoBehaviour
             _ingame[i].SetActive(false);
             GameplayManager.Instance.FXManager.Instantiate("P_VFX_Sparkles_Ball_Collision", _ingame[i].transform.position, Quaternion.identity, null);
             yield return new WaitForSeconds(0.05f);
+
+            GameplayManager.Instance.UIManager.UpdateBallCount(0);
         }
     }
 }

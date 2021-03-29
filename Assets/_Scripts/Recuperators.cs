@@ -12,6 +12,7 @@ public class Recuperators : MonoBehaviour
         if (ball == null)
             return;
 
+        GameplayManager.Instance.UpdateScore(2525);
         GameplayManager.Instance.AudioManager.PlaySFX(_sfxName);
         GameplayManager.Instance.FXManager.Instantiate(_vfxName, transform.position, Quaternion.identity, null);
         ball.LevelUp();

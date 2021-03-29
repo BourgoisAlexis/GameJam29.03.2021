@@ -6,6 +6,7 @@ public class FinalRecup : Recuperators
     {
         base.OnTriggerEnter2D(other);
 
+        GameplayManager.Instance.UpdateScore(2525);
         GameplayManager.Instance.Evolve();
     }
 }

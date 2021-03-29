@@ -1,19 +1,32 @@
 ﻿using DG.Tweening;
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class GameplayManager : MonoBehaviour
 {
     public static GameplayManager Instance;
 
     #region Variables
+    [Header("UI")]
+    [SerializeField] private GraphicRaycaster _GRayCaster;
+    [SerializeField] private EventSystem _eventSystem;
+
+    [Header("Hands")]
     [SerializeField] private Transform _leftHand;
     [SerializeField] private Transform _rightHand;
-    [SerializeField] private float _bottomLimit;
+
+    [Header("Adaptative Visuals")]
     [SerializeField] private SpriteRenderer _machineVisual;
     [SerializeField] private SpriteRenderer _screenVisual;
     [SerializeField] private Sprite[] _machineSprites;
     [SerializeField] private Sprite[] _screenSprites;
+    [SerializeField] private float _bottomLimit;
+
+
+    private Camera _mainCamera;
+    private PointerEventData _pointerEventData;
 
     private Vector3 _basePos;
 
@@ -45,7 +58,8 @@ public class GameplayManager : MonoBehaviour
         else
             Destroy(this);
 
-        _camTransform = Camera.main.transform;
+        _mainCamera = Camera.main;
+        _camTransform = _mainCamera.transform;
         _basePos = _camTransform.position;
 
         _fxManager = GetComponent<FXManager>();
@@ -60,9 +74,9 @@ public class GameplayManager : MonoBehaviour
     {
         if (_canSlap)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            if (Input.GetMouseButtonDown(1))
                 Slap(true);
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            else if (Input.GetMouseButtonDown(0) && DetectUI(Input.mousePosition) == false)
                 Slap(false);
         }
 
@@ -89,8 +103,11 @@ public class GameplayManager : MonoBehaviour
     private void Slap(bool left)
     {
         _canSlap = false;
+
         if (_pv > 0)
             _pv--;
+        else
+            return;
 
         int step = 30 / 4;
 
@@ -98,9 +115,7 @@ public class GameplayManager : MonoBehaviour
         if (_pv == 0)
         {
             _machineVisual.sprite = _machineSprites[3];
-            _uiManager.UpdatePV(_pv);
             _ballPool.Stop();
-            return;
         }
         else if (_pv < step * 2)
             _machineVisual.sprite = _machineSprites[2];
@@ -160,7 +175,24 @@ public class GameplayManager : MonoBehaviour
         if (_evolve < 2)
             _evolve++;
 
+        _fxManager.Instantiate("P_VFX_Evolution", _screenVisual.transform.position - Vector3.forward, Quaternion.identity, null);
         _screenVisual.sprite = _screenSprites[_evolve];
+    }
+
+
+    private bool DetectUI(Vector2 _position)
+    {
+        _pointerEventData = new PointerEventData(_eventSystem);
+        _pointerEventData.position = _position;
+
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        _GRayCaster.Raycast(_pointerEventData, results);
+
+        foreach (RaycastResult result in results)
+            return true;
+
+        return false;
     }
 
 
