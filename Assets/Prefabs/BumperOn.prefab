@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6139772236566255211}
   - component: {fileID: 2939217094978869457}
   m_Layer: 0
-  m_Name: Bumper
+  m_Name: BumperOn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,7 +48,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.45
+  m_Radius: 0.55
 --- !u!114 &2939217094978869457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,7 +135,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 3d16f25bc1227d44fbb4c7c7c70693e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2ebab302610cf6944b9810bfca8a8bae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
