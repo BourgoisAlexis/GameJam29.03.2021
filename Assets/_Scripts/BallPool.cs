@@ -71,7 +71,7 @@ public class BallPool : MonoBehaviour
             GameObject instance = _reserve.Dequeue();
             instance.transform.localPosition = Vector3.zero;
             instance.SetActive(true);
-            float rnd = Random.Range(5f, 9f);
+            float rnd = Random.Range(5f, 8f);
             instance.GetComponent<Ball>().Bump(Vector2.up, rnd);
             _ingame.Add(instance);
 
