@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _force: 0
-  _points: 100
+  _points: 101
   _vfxName: P_VFX_Sparkles_Ball_Collision
   _sfxName: SFX_Nail
   _sprites: []

@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _force: 10
-  _points: 100
+  _points: 1010
   _vfxName: P_VFX_Sparkles_Ball_Collision
   _sfxName: SFX_Bumper
   _sprites:
