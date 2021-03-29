@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BallPool : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class BallPool : MonoBehaviour
     private Queue<GameObject> _reserve = new Queue<GameObject>();
     private Queue<GameObject> _lost = new Queue<GameObject>();
     private List<GameObject> _ingame = new List<GameObject>();
+
+    private float delay = 2;
     #endregion
 
 
@@ -56,10 +59,13 @@ public class BallPool : MonoBehaviour
         ball.SetActive(false);
     }
 
+    public void ChangeSpeed(Slider slider)
+    {
+        delay = slider.value;
+    }
+
     private IEnumerator LaunchCorout()
     {
-        int delay = 2;
-
         while (_reserve.Count > 0)
         {
             GameObject instance = _reserve.Dequeue();
