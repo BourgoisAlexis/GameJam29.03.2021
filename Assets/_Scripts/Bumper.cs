@@ -11,13 +11,17 @@ public class Bumper : MonoBehaviour
     {
         //Normal si pas que des ronds
 
+        Ball ball = other.gameObject.GetComponent<Ball>();
+
+        if (ball == null)
+            return;
+
         Vector2 dir = other.transform.position - transform.position;
         dir.Normalize();
 
-        other.gameObject.GetComponent<Ball>()?.Bump(dir,  _force);
-
+        ball.Bump(dir,  _force);
         GameplayManager.Instance.ShakyCam(false);
-        GameplayManager.Instance.UpdateScore(_points);
+        GameplayManager.Instance.UpdateScore(_points * (ball.Level + 1));
         GameplayManager.Instance.FXManager.Instantiate(_fxName, transform.position, Quaternion.identity, null);
     }
 }

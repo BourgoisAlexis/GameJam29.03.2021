@@ -8,6 +8,7 @@ public class BallPool : MonoBehaviour
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Transform _parent;
     [SerializeField] private int _starting;
+    [SerializeField] private int _startSpawn;
 
     private Queue<GameObject> _reserve = new Queue<GameObject>();
     private Queue<GameObject> _lost = new Queue<GameObject>();
@@ -25,9 +26,10 @@ public class BallPool : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Update()
     {
-        LaunchBall(10);
+        if (Input.GetKeyDown(KeyCode.Space))
+            LaunchBall(_startSpawn);
     }
 
 
@@ -43,6 +45,7 @@ public class BallPool : MonoBehaviour
     {
         _lost.Enqueue(ball);
         _ingame.Remove(ball);
+        _reserve.Enqueue(ball);
 
         ball.SetActive(false);
     }
@@ -56,7 +59,11 @@ public class BallPool : MonoBehaviour
     {
         for (int i = 0;  i < delay; i++)
         {
+            if (_reserve.Count <= 0)
+                break;
+
             GameObject instance = _reserve.Dequeue();
+            instance.transform.localPosition = Vector3.zero;
             instance.SetActive(true);
             _ingame.Add(instance);
             yield return new WaitForSeconds(0.1f);

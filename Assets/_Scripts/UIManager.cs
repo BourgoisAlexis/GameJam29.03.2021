@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI scoreDisplay;
+    [SerializeField] private TextMeshProUGUI _scoreDisplay;
+    [SerializeField] private Image _pv;
+
 
     public void UpdateScore(int score)
     {
-        scoreDisplay.text = score.ToString();
+        _scoreDisplay.text = score.ToString();
+    }
+
+    public void UpdatePV(int pv)
+    {
+        _pv.fillAmount = (float)pv / 30f;
     }
 }

@@ -5,11 +5,17 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     #region Variables
+    [SerializeField] private Sprite[] _sprites;
+
     private Transform _transform;
     private Rigidbody2D _rb;
     private Transform _visual;
 
     private float _bottomLimit;
+    private int _level;
+
+    //Accessors
+    public int Level => _level;
     #endregion
 
 
@@ -23,6 +29,7 @@ public class Ball : MonoBehaviour
     private void Start()
     {
         _bottomLimit = GameplayManager.Instance.BottomLimit;
+        _visual.GetComponent<SpriteRenderer>().sprite = _sprites[_level];
     }
 
     private void FixedUpdate()
@@ -43,7 +50,13 @@ public class Ball : MonoBehaviour
 
 
         if (_transform.position.y < -_bottomLimit)
+        {
             GameplayManager.Instance.BallPool.LoseBall(gameObject);
+            if (_level < 4)
+                _level++;
+
+            _visual.GetComponent<SpriteRenderer>().sprite = _sprites[_level];
+        }
     }
 
 

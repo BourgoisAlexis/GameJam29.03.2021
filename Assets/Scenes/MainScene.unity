@@ -344,6 +344,7 @@ MonoBehaviour:
   _prefab: {fileID: 3124312437081217949, guid: 8654ce7bb20722e4ea2ca87fee873bf1, type: 3}
   _parent: {fileID: 1129719545}
   _starting: 100
+  _startSpawn: 30
 --- !u!1 &742399974
 GameObject:
   m_ObjectHideFlags: 0

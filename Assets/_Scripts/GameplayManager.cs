@@ -23,6 +23,9 @@ public class GameplayManager : MonoBehaviour
     private int _current;
     private int _target;
 
+    //PV
+    private int _pv = 30;
+
     //Accessors
     public FXManager FXManager => _fxManager;
     public UIManager UIManager => _uiManager;
@@ -81,6 +84,10 @@ public class GameplayManager : MonoBehaviour
     private void Slap(bool left)
     {
         _canSlap = false;
+        if (_pv > 0)
+            _pv--;
+
+        _uiManager.UpdatePV(_pv);
 
         if (left)
             _rightHand.DOMoveX(2.5f, 0.05f).onComplete += RightSlap;
