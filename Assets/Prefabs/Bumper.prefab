@@ -63,7 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _force: 10
   _points: 100
-  _vfxName: 
+  _vfxName: P_VFX_Sparkles_Ball_Collision
   _sfxName: SFX_Bumper
   _sprites:
   - {fileID: 21300000, guid: 3d16f25bc1227d44fbb4c7c7c70693e5, type: 3}

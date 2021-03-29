@@ -144,5 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _force: 0
   _points: 100
-  _vfxName: 
+  _vfxName: P_VFX_Sparkles_Ball_Collision
   _sfxName: SFX_Ball_Collide
+  _sprites: []
