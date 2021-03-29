@@ -145,4 +145,4 @@ MonoBehaviour:
   _force: 0
   _points: 100
   _vfxName: 
-  _sfxName: 
+  _sfxName: SFX_Ball_Collide

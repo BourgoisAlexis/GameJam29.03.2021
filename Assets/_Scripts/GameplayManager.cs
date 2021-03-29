@@ -10,6 +10,8 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private Transform _leftHand;
     [SerializeField] private Transform _rightHand;
     [SerializeField] private float _bottomLimit;
+    [SerializeField] private Sprite[] _machineSprites;
+    [SerializeField] private Sprite[] _screenSprites;
 
     private Vector3 _basePos;
     private bool _canSlap;
@@ -93,9 +95,9 @@ public class GameplayManager : MonoBehaviour
         _uiManager.UpdatePV(_pv);
 
         if (left)
-            _rightHand.DOMoveX(2.5f, 0.05f).onComplete += RightSlap;
+            _rightHand.DOMoveX(8.7f, 0.05f).onComplete += RightSlap;
         else
-            _leftHand.DOMoveX(-2.5f, 0.05f).onComplete += LeftSlap;
+            _leftHand.DOMoveX(-8.7f, 0.05f).onComplete += LeftSlap;
     }
 
     private void RightSlap()
@@ -105,7 +107,7 @@ public class GameplayManager : MonoBehaviour
 
         _ballPool.BumpAll(new Vector2(-1, 0), 2);
 
-        _rightHand.DOMoveX(7f, 0.05f);
+        _rightHand.DOMoveX(15, 0.05f);
     }
 
     private void LeftSlap()
@@ -115,7 +117,7 @@ public class GameplayManager : MonoBehaviour
 
         _ballPool.BumpAll(new Vector2(1, 0), 2);
 
-        _leftHand.DOMoveX(-7f, 0.05f);
+        _leftHand.DOMoveX(-15, 0.05f);
     }
 
     public void ShakyCam(bool super)
@@ -131,6 +133,11 @@ public class GameplayManager : MonoBehaviour
         }
 
         seq.Append(_camTransform.DOMove(_basePos, 0.05f));
+    }
+
+    public void Evolve()
+    {
+
     }
 
 

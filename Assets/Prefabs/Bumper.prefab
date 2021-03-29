@@ -64,7 +64,10 @@ MonoBehaviour:
   _force: 10
   _points: 100
   _vfxName: 
-  _sfxName: 
+  _sfxName: SFX_Bumper
+  _sprites:
+  - {fileID: 21300000, guid: 3d16f25bc1227d44fbb4c7c7c70693e5, type: 3}
+  - {fileID: 21300000, guid: 2ebab302610cf6944b9810bfca8a8bae, type: 3}
 --- !u!1 &6905592608381492437
 GameObject:
   m_ObjectHideFlags: 0

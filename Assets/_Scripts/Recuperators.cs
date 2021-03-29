@@ -2,7 +2,9 @@
 
 public class Recuperators : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other)
+
+
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         Ball ball = other.GetComponent<Ball>();
 

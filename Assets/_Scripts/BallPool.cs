@@ -26,10 +26,9 @@ public class BallPool : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-            LaunchBall(_startSpawn);
+        StartCoroutine(LaunchCorout());
     }
 
 
@@ -57,24 +56,20 @@ public class BallPool : MonoBehaviour
         ball.SetActive(false);
     }
 
-    private void LaunchBall(int delay)
+    private IEnumerator LaunchCorout()
     {
-        StartCoroutine(LaunchCorout(delay));
-    }
+        int delay = 2;
 
-    private IEnumerator LaunchCorout(int delay)
-    {
-        for (int i = 0;  i < delay; i++)
+        while (_reserve.Count > 0)
         {
-            if (_reserve.Count <= 0)
-                break;
-
             GameObject instance = _reserve.Dequeue();
             instance.transform.localPosition = Vector3.zero;
             instance.SetActive(true);
-            instance.GetComponent<Ball>().Bump(Vector2.up, 10);
+            float rnd = Random.Range(5f, 9f);
+            instance.GetComponent<Ball>().Bump(Vector2.up, rnd);
             _ingame.Add(instance);
-            yield return new WaitForSeconds(0.1f);
+
+            yield return new WaitForSeconds(delay);
         }
     }
 }
